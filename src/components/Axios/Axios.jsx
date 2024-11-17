@@ -17,6 +17,10 @@ export let getDataById = (id) => {
   baseURL: "http://localhost:5800/user",
 });
 
-export let postUser = () => {
-  return userAPi.post("/createUser");
+export let postUser = (user) => {
+  return userAPi.post("/createUser", user, {
+    headers: {
+      "Content-Type": "application/json",
+    },
+  });
 };

@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import logo from '../../assets/images/Home/QuickCart_navLogo.png'
+import {Link} from 'react-router-dom'
 
 const Navbar = () => {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
@@ -37,7 +38,7 @@ const Navbar = () => {
             <a href="/login" className="text-black hover:text-gray-700">
               Login
             </a>
-            <a href="/cart" className="flex items-center text-black hover:text-gray-700">
+            <Link to="/cart" className="flex items-center text-black hover:text-gray-700">
               Cart
               <svg
                 xmlns="http://www.w3.org/2000/svg"
@@ -53,7 +54,7 @@ const Navbar = () => {
                   d="M3 3h2l1 5m0 0h13l1-5m-15 5l1 9h10l1-9m-14 0h14M6 21h.01M18 21h.01"
                 />
               </svg>
-            </a>
+            </Link>
           </div>
 
           {/* Mobile Hamburger Menu */}
