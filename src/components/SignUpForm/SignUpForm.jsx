@@ -2,6 +2,7 @@ import { useState } from "react";
 import signUPBanner from "../../assets/images/SignUp/Sign_Up2.jfif";
 import { Link, useNavigate } from "react-router-dom";
 import { postUser } from "../Axios/Axios";
+import * as yup from "yup";
 
 const SignUpForm = () => {
   let [user, setUser] = useState({
@@ -24,18 +25,20 @@ const SignUpForm = () => {
 
   let navigate = useNavigate();
   let NavigatingPage = (endpoint) => {
-    navigate(`/${endpoint}`);
+    navigate(`/login`);
   };
+
+  let formValidation = yup.st
 
   let handleSubmit = async (e) => {
     e.preventDefault();
     console.log(user);
     // Add validation or API call here
     const response = await postUser(user);
-    if(response.status===200){
-      console.log(response.data)
+    if(response.status==200){
+      console.log('success');
     }
- 
+
   };
 
   return (
@@ -128,7 +131,8 @@ const SignUpForm = () => {
               </div>
               <button
                 type="submit"
-                onClick={()=>NavigatingPage('login')}
+                      // onClick={user?NavigatingPage:""}
+              
                 className="w-full bg-zinc-900 hover:bg-zinc-700 transition ease-linear font-bold py-3 text-white"
               >
                 Sign Up

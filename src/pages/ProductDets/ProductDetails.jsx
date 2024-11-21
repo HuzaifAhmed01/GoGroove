@@ -54,9 +54,10 @@ const ProductDetails = () => {
             <div className="text_Data flex flex-col gap-3">
               <h3 className="opacity-[.6] ">{newData.category}</h3>
               <h1>{newData.title}</h1>
-              <h4>
+              <h4 className="flex gap-3">
+                <img src="../../../public/images/Stars.jpg" className='w-5 object-contain' alt="" />
                 Rating {newData.rating.rate}
-                <i class="ri-star-s-fill"></i>{" "}
+                {" "}
               </h4>
               <p>{newData.description}</p>
             </div>

@@ -3,9 +3,10 @@ import ProductDetails from "./pages/ProductDets/ProductDetails";
 import Homepage from "./pages/Home/Homepage";
 import AllCards from "./components/AllCards/AllCards";
 import Cart from "./components/Cart/Cart";
-import SignUpForm from "./components/SignUpForm/signUpForm";
 import LoginForm from "./components/LoginForm/LoginForm";
 import Navigation from "./components/Navigation/Navigation";
+import Footer from "./components/footer/Footer";
+import SignUpForm from "./components/SignUpForm/SignUpForm";
 
 let ReactRouting = () => {
   const location = useLocation();
@@ -26,6 +27,14 @@ let ReactRouting = () => {
         <Route path="/login" element={<LoginForm />} />
         <Route path="/sign-up" element={<SignUpForm />} />
       </Routes>
+
+      {currentPath == "/login" || currentPath == "/sign-up" ? (
+        ""
+      ) : (
+        <Footer/>
+      )}
+
+
     </>
   );
 };

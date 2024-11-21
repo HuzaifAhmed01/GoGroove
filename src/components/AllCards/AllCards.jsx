@@ -43,7 +43,7 @@ const AllCards = () => {
   return (
     <>
       {/* Header Section */}
-      <div className="w-full py-12 text-center flex flex-col justify-center items-center gap-3">
+      <div className="w-full py-5 text-center flex flex-col justify-center items-center gap-3">
   <h1 className="text-3xl sm:text-4xl md:text-5xl font-semibold">Latest Products</h1>
   <div className="w-10/12 sm:w-8/12 md:w-6/12 h-px bg-black/30 mx-auto"></div>
 </div>
@@ -104,7 +104,7 @@ const AllCards = () => {
 
 
       {/* Responsive Cards Grid */}
-      <div className="w-full grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-4 gap-4 px-4">
+      <div className="w-full py-3 grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-4 gap-4 px-4">
   {filterData.map((obj) => {
     return (
       <Card
@@ -133,7 +133,7 @@ const AllCards = () => {
           </div>
           <Button
             variant="outline-dark"
-            className=" w-full  rounded-lg text-sm font-medium bg-red-500 "
+            className="mt-1 w-full  rounded-lg text-sm font-medium bg-red-500 "
             onClick={() => handleClickNavigate(obj.id)}
           >Buy Now</Button>
         </Card.Body>

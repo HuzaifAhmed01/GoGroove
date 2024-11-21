@@ -18,9 +18,5 @@ export let getDataById = (id) => {
 });
 
 export let postUser = (user) => {
-  return userAPi.post("/createUser", user, {
-    headers: {
-      "Content-Type": "application/json",
-    },
-  });
+  return userAPi.post("/createUser", user);
 };
