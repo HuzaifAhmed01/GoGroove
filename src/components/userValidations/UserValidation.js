@@ -2,12 +2,10 @@ import * as Yup from "yup"; // Ensure consistent naming
 
 export let signUpFormValidations = Yup.object({
   firstName: Yup.string()
-    .min(2, "First name must be at least 2 characters")
-    .max(25, "First name must not exceed 25 characters")
+    .min(3, " At least 3 characters")
     .required("Enter your first name"),
   lastName: Yup.string()
-    .min(2, "Last name must be at least 2 characters")
-    .max(25, "Last name must not exceed 25 characters")
+    .min(2, "At least 3 characters")
     .required("Enter your last name"),
   email: Yup.string()
     .email("Please enter a valid email")
@@ -18,4 +16,11 @@ export let signUpFormValidations = Yup.object({
   confirmPassword: Yup.string()
     .oneOf([Yup.ref("password"), null], "Passwords must match")
     .required("Please confirm your password"),
+  phone: Yup.string()
+    .matches(/^[0-9]{10}$/, "Please enter a valid 10-digit phone number")
+    .required("Please enter your phone number"),
+
+    acceptTerms: Yup.boolean()
+    .oneOf([true],'You must accept the terms and conditions')
+    .required("You must accept the terms and conditions")
 });
