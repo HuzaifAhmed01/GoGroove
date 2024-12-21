@@ -1,9 +1,22 @@
 import React, { useState } from "react";
-import logo from '../../assets/images/Home/QuickCart_navLogo.png'
-import {Link} from 'react-router-dom'
+import logo from "../../assets/images/Home/QuickCart_navLogo.png";
+import { Link } from "react-router-dom";
+import Cookies from "js-cookie";
 
 const Navbar = () => {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+
+  const token = Cookies.get("token");
+  const name = Cookies.get("name");
+  console.log({
+    'token':token,
+    "name":name
+  })
+
+  const tokenRemove = () => {
+    Cookies.remove("token");
+    Cookies.remove("name"); // Remove name cookie if applicable
+  };
 
   return (
     <nav className="w-full bg-white shadow-md sticky top-0 z-50">
@@ -11,11 +24,7 @@ const Navbar = () => {
         <div className="flex items-center justify-between h-16">
           {/* Logo */}
           <a href="/" className="flex-shrink-0">
-            <img
-              src={logo} // Replace with your logo
-              alt="GoGroove Logo"
-              className="h-[50px]"
-            />
+            <img src={logo} alt="QuickCart Logo" className="h-[50px]" />
           </a>
 
           {/* Desktop Search Bar */}
@@ -35,10 +44,10 @@ const Navbar = () => {
             <a href="/categories" className="text-black hover:text-gray-700">
               Categories
             </a>
-            <a href="/login" className="text-black hover:text-gray-700">
-              Login
-            </a>
-            <Link to="/cart" className="flex items-center text-black hover:text-gray-700">
+            <Link
+              to="/cart"
+              className="flex items-center text-black hover:text-gray-700"
+            >
               Cart
               <svg
                 xmlns="http://www.w3.org/2000/svg"
@@ -55,6 +64,18 @@ const Navbar = () => {
                 />
               </svg>
             </Link>
+            {token && name ? (
+              <button
+                onClick={tokenRemove}
+                className="text-black hover:text-gray-700"
+              >
+                Logout ({name})
+              </button>
+            ) : (
+              <Link to="/login" className="text-black hover:text-gray-700">
+                Login
+              </Link>
+            )}
           </div>
 
           {/* Mobile Hamburger Menu */}
@@ -89,15 +110,27 @@ const Navbar = () => {
         {isMobileMenuOpen && (
           <div className="md:hidden bg-white border-t border-gray-300">
             <div className="py-4 space-y-2 px-4">
-              <a href="/categories" className="block text-black hover:text-gray-700">
+              <a
+                href="/categories"
+                className="block text-black hover:text-gray-700"
+              >
                 Categories
               </a>
-              <a href="/login" className="block text-black hover:text-gray-700">
-                Login
-              </a>
-              <a href="/cart" className="block text-black hover:text-gray-700">
+              <Link to="/cart" className="block text-black hover:text-gray-700">
                 Cart
-              </a>
+              </Link>
+              {token && name ? (
+                <button
+                  onClick={tokenRemove}
+                  className="block text-black hover:text-gray-700"
+                >
+                  Logout
+                </button>
+              ) : (
+                <Link to="/login" className="block text-black hover:text-gray-700">
+                  Login
+                </Link>
+              )}
             </div>
           </div>
         )}

@@ -3,6 +3,7 @@ import * as api from "../Axios/Axios";
 import Button from "react-bootstrap/Button";
 import { useNavigate } from "react-router-dom";
 import Card from "react-bootstrap/Card";
+import Loader from "../Loader/Loader";
 
 const AllCards = () => {
   let [cards, setCards] = useState([]);
@@ -105,41 +106,45 @@ const AllCards = () => {
 
       {/* Responsive Cards Grid */}
       <div className="w-full py-3 grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-4 gap-4 px-4">
-  {filterData.map((obj) => {
-    return (
-      <Card
-        key={obj.id}
-        className="w-full h-auto p-2 flex flex-col items-center justify-between text-center bg-white rounded-lg shadow-lg hover:shadow-2xl transition-all duration-300 transform hover:scale-105"
-      >
-        <div className="w-full h-48  rounded-lg overflow-hidden relative">
-          <Card.Img
-            variant="top"
-            src={obj.image}
-            className="w-full h-full object-contain transition-transform duration-500 ease-in-out transform hover:scale-110"
-          />
-          {/* Add a badge to highlight discounts or new arrivals */}
-          {/* <div className="absolute top-2 right-2 bg-red-500 text-white text-xs font-semibold py-1 px-2 rounded-lg">
-            New
-          </div> */}
-        </div>
-        <Card.Body className="flex flex-col justify-between ">
-          <h2 className="text-lg font-semibold text-gray-800">{obj.title.slice(0, 12)}</h2>
-          <div className="w-full h-8 flex justify-between items-baseline ">
-            <h3 className="text-xl font-bold text-gray-900">${Math.ceil(obj.price)}</h3>
-            <div className="flex items-center space-x-1 text-yellow-500">
-              {/* Add star rating */}
-              <img src={'../../../public/images/Stars.jpg'} alt="" className="w-4"/><span>{obj.rating.rate}</span>
-            </div>
+  {filterData?(
+    filterData.map((obj) => {
+      return (
+        <Card
+          key={obj.id}
+          className="w-full h-auto p-2 flex flex-col items-center justify-between text-center bg-white rounded-lg shadow-lg hover:shadow-2xl transition-all duration-300 transform hover:scale-105"
+        >
+          <div className="w-full h-48  rounded-lg overflow-hidden relative">
+            <Card.Img
+              variant="top"
+              src={obj.image}
+              className="w-full h-full object-contain transition-transform duration-500 ease-in-out transform hover:scale-110"
+            />
+            {/* Add a badge to highlight discounts or new arrivals */}
+            {/* <div className="absolute top-2 right-2 bg-red-500 text-white text-xs font-semibold py-1 px-2 rounded-lg">
+              New
+            </div> */}
           </div>
-          <Button
-            variant="outline-dark"
-            className="mt-1 w-full  rounded-lg text-sm font-medium bg-red-500 "
-            onClick={() => handleClickNavigate(obj.id)}
-          >Buy Now</Button>
-        </Card.Body>
-      </Card>
-    );
-  })}
+          <Card.Body className="flex flex-col justify-between ">
+            <h2 className="text-lg font-semibold text-gray-800">{obj.title.slice(0, 12)}</h2>
+            <div className="w-full h-8 flex justify-between items-baseline ">
+              <h3 className="text-xl font-bold text-gray-900">${Math.ceil(obj.price)}</h3>
+              <div className="flex items-center space-x-1 text-yellow-500">
+                {/* Add star rating */}
+                <img src={'../../../public/images/Stars.jpg'} alt="" className="w-4"/><span>{obj.rating.rate}</span>
+              </div>
+            </div>
+            <Button
+              variant="outline-dark"
+              className="mt-1 w-full  rounded-lg text-sm font-medium bg-red-500 "
+              onClick={() => handleClickNavigate(obj.id)}
+            >Buy Now</Button>
+          </Card.Body>
+        </Card>
+      );
+    })
+  ):(
+<Loader/>
+  )}
 </div>
 
     </>

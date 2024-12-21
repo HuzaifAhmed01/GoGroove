@@ -3,7 +3,6 @@ import signUPBanner from "../../assets/images/SignUp/Sign_Up2.jfif";
 import { Link, useNavigate } from "react-router-dom";
 import { postUser } from "../Axios/Axios";
 import { signUpFormValidations } from "../userValidations/UserValidation";
-import Cockies from 'js-cookie';
 import Cookies from "js-cookie";
 
 const SignUpForm = () => {
@@ -40,11 +39,12 @@ const SignUpForm = () => {
       // API Call
       const response = await postUser(user);
 
-      if (response.status === 200) {
+      if (response.status === 201) {
         console.log(response);
-        console.log(response.data);
-        console.log(response.data.token);
         Cookies.set("token",response.data.token);
+        Cookies.set("name",response.data.name);
+     
+       
         navigate("/"); 
       }
     } catch (err) {
@@ -58,7 +58,6 @@ const SignUpForm = () => {
         console.error("Server error:", err.response.data);
       } else {
         console.error("Unexpected error:", err);
-        alert("An unexpected error occurred.");
       }
     }
   };
