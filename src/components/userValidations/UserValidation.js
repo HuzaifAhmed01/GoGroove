@@ -20,7 +20,16 @@ export let signUpFormValidations = Yup.object({
     .matches(/^[0-9]{10}$/, "Please enter a valid 10-digit phone number")
     .required("Please enter your phone number"),
 
-    acceptTerms: Yup.boolean()
-    .oneOf([true],'You must accept the terms and conditions')
-    .required("You must accept the terms and conditions")
+  acceptTerms: Yup.boolean()
+    .oneOf([true], "You must accept the terms and conditions")
+    .required("You must accept the terms and conditions"),
+});
+
+export let userLoginFormValidation = Yup.object({
+  email: Yup.string()
+    .email("please enter valid email")
+    .required("please enter your email"),
+  password: Yup.string()
+    .min(6, "Password must be at least 6 characters")
+    .required("please enter your password"),
 });

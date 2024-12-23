@@ -13,10 +13,14 @@ export let getDataById = (id) => {
 };
 
 // For User
- let userAPi = axios.create({
+let userAPi = axios.create({
   baseURL: "http://localhost:5800/user",
 });
 
 export let postUser = (user) => {
   return userAPi.post("/createUser", user);
+};
+
+export let userLogin = (user) => {
+  return userAPi.post("/userLogin", user);
 };

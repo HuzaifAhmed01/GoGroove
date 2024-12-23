@@ -38,7 +38,7 @@ const CartReducer = (state = initialState, action) => {
           );
         }
       }
-      return state; // Return the unchanged state if the product does not exist
+      return state; 
     }
 
     default:
