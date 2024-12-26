@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import * as api from "../../components/Axios/Axios";
 import Button from 'react-bootstrap/Button';
-import { useSelector,useDispatch } from "react-redux";
+import {useDispatch } from "react-redux";
 import { AddCart } from "../../redux/action";
 import Loader from "../../components/Loader/Loader";
 

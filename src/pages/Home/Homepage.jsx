@@ -11,7 +11,6 @@ const Homepage = () => {
       <HeroSection />
       <ProductsGrids />
       <SignUpBanner />
-
       <AllCards />
     </div>
   );
