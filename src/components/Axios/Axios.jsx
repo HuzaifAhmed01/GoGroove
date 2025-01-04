@@ -1,15 +1,15 @@
 import axios from "axios";
 
 let api = axios.create({
-  baseURL: "https://fakestoreapi.com",
+  baseURL: "http://localhost:5800/products",
 });
 
 export let getData = () => {
-  return api.get("/products");
+  return api.get("/allProducts");
 };
 
 export let getDataById = (id) => {
-  return api.get(`/products/${id}`);
+  return api.get(`/findProduct/${id}`);
 };
 
 // For User

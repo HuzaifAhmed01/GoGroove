@@ -1,37 +1,50 @@
 import React, { useEffect, useState } from "react";
-import * as api from "../Axios/Axios";
+import * as api from "../Axios/Axios"; // Adjust import path for Axios API module
+import { useNavigate } from "react-router-dom";
+import Loader from "../Loader/Loader";
 
-const ProductsGrids = () => {
-  const [products, setProducts] = useState([]);
+const WelcomePage = () => {
+
+    let navigate = useNavigate();
+  
+    let handleClickNavigate = (id) => {
+      navigate(`/product/${id}`);
+    };
+
+  const [suggestedProducts, setSuggestedProducts] = useState([]);
+  const [topRatedProducts, setTopRatedProducts] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
 
-  const fetchData = async () => {
+  const fetchProducts = async () => {
     try {
-      const response = await api.getData();
-      if (response.status === 200) {
-        console.log("Fetched Data:", response.data);
-        setProducts(response.data); // Ensure data is properly set
+      const response = await api.getData(); // Fetch data from the API
+      if (response.status === 200 && Array.isArray(response.data)) {
+        // Assuming the API response contains "suggested" and "topRated" product categories
+        setSuggestedProducts(response.data.filter((prod) => prod.category === "electronics").slice(0, 6));
+        setTopRatedProducts(response.data.filter((prod) => prod.category === "women's clothing").slice(0, 6));
       } else {
-        throw new Error("Failed to fetch products");
+        throw new Error("Invalid data format received from the server.");
       }
     } catch (err) {
-      setError("An error occurred while fetching products.");
-      console.error("Fetch Error:", err.message);
+      setError(err.message || "An error occurred while fetching products.");
+      console.error("Fetch Error:", err);
     } finally {
       setLoading(false);
     }
   };
 
   useEffect(() => {
-    fetchData();
+    fetchProducts();
   }, []);
 
   if (loading) {
     return (
-      <div className="w-full py-12 bg-gray-100 flex justify-center items-center">
-        <p className="text-gray-600">Loading products...</p>
-      </div>
+<div className="w-full h-[400px] flex items-center justify-center ">
+
+  <Loader/>
+</div>
+     
     );
   }
 
@@ -45,54 +58,71 @@ const ProductsGrids = () => {
 
   return (
     <div className="w-full py-12 bg-gray-100 flex flex-col items-center">
-      <h2 className="text-3xl font-bold text-gray-800 text-center mb-6">
-        Featured Collections
-      </h2>
-      <p className="text-gray-600 text-center mb-10">
-        Browse our top products curated just for you.
-      </p>
-
-      {/* Main grid with two boxes */}
-      <div className="grid grid-cols-1 sm:grid-cols-2 gap-8 px-4">
-        {products.length > 0 ? (
-          products.slice(0, 2).map((parent, index) => (
+    <h1 className="text-4xl font-bold text-gray-800 text-center mb-8">
+      Welcome to Our Store!
+    </h1>
+    <p className="text-gray-600 text-center mb-12">
+      Discover top-rated products and personalized suggestions just for you.
+    </p>
+  
+    <div className="w-full max-w-7xl px-4">
+      {/* Suggested Products */}
+      <section className="mb-12">
+        <h2 className="text-2xl font-bold text-gray-800 mb-6 text-center">Suggested Products</h2>
+        <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-6">
+          {suggestedProducts.map((product) => (
             <div
-              key={index}
-              className="bg-white shadow-lg rounded-lg overflow-hidden p-6"
+              key={product.id}
+              className="bg-white shadow-md rounded-lg overflow-hidden p-4 flex flex-col items-center group" // Added 'group' for nested hover effects
+              onClick={() => handleClickNavigate(product.id)}
             >
-              <h3 className="text-lg font-semibold text-gray-700 text-center mb-4">
-                Collection {index + 1}
+             <div className="w-28 h-24 mb-3 ">
+             <img
+                src={product.image || "https://via.placeholder.com/150"}
+                alt={product.title || "Product Image"}
+                className="w-[100%] h-[100%] object-center  mb-4 transition-transform duration-300 ease-in-out transform group-hover:scale-110"
+              />
+             </div>
+              <h3 className="text-sm font-semibold text-gray-800 text-center mb-2">
+                {product.title.slice(0,20)|| "Unnamed Product"}
               </h3>
-
-              {/* Grid for 5-6 products */}
-              <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-2 gap-4">
-                {parent.item.slice(0, 4).map((product) => (
-                  <div
-                    key={product.id} // Ensure unique key
-                    className="bg-gray-50 flex flex-col items-center justify-center rounded-lg shadow-md overflow-hidden hover:shadow-lg transition-all p-4"
-                  >
-                    <img
-                      src={product.image} // Fallback image
-                      alt={product.title}
-                      className="w-24 h-24 object-cover mb-2"
-                    />
-                    <p className="text-gray-800 text-sm font-medium text-center">
-                      {product.title }
-                    </p>
-                    <p className="text-yellow-500 font-semibold">
-                      ${product.price}
-                    </p>
-                  </div>
-                ))}
-              </div>
+              <p className="text-yellow-500 font-semibold text-sm">
+                ${product.price?.toFixed(2) || "0.00"}
+              </p>
             </div>
-          ))
-        ) : (
-          <p className="text-gray-600">No products available.</p>
-        )}
-      </div>
+          ))}
+        </div>
+      </section>
+  
+      {/* Top Rated Products */}
+      <section>
+        <h2 className="text-2xl font-bold text-gray-800 mb-6 text-center">Top Rated Products</h2>
+        <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-6">
+          {topRatedProducts.map((product) => (
+            <div
+              key={product.id}
+              className="bg-white shadow-md rounded-lg overflow-hidden p-4 flex flex-col items-center group"
+              onClick={() => handleClickNavigate(product.id)}
+            >
+              <img
+                src={product.image || "https://via.placeholder.com/150"}
+                alt={product.title || "Product Image"}
+                className="w-26 h-28 object-center   mb-4 transition-transform duration-300 ease-in-out transform group-hover:scale-110"
+              />
+              <h3 className="text-sm font-semibold text-gray-800 text-center mb-2">
+                {product.title.slice(0,15) || "Unnamed Product"}
+              </h3>
+              <p className="text-yellow-500 font-semibold text-sm">
+                ${product.price?.toFixed(2) || "0.00"}
+              </p>
+            </div>
+          ))}
+        </div>
+      </section>
     </div>
+  </div>
+  
   );
 };
 
-export default ProductsGrids;
+export default WelcomePage;

@@ -1,5 +1,6 @@
 import React from "react";
 import Home_banner from "../../assets/images/Home/Home_banner.jpg";
+import { Link } from "react-router-dom";
 
 const HeroSection = () => {
   return (
@@ -27,12 +28,12 @@ const HeroSection = () => {
 
           {/* Call to Action Buttons */}
           <div className="mt-6 flex flex-wrap gap-4 animate-fade-in">
-            <button className="bg-yellow-500 hover:bg-yellow-600 text-white  px-6 py-3 rounded-lg text-sm md:text-lg transition duration-300">
+            <Link to="/top-Products"  className="bg-yellow-500 hover:bg-yellow-600 text-white  px-6 py-3 rounded-lg text-sm md:text-lg transition duration-300">
               Shop Now
-            </button>
-            <button className="bg-zinc-50 hover:bg-zinc-300 text-black px-6 py-3 rounded-lg text-sm md:text-lg transition duration-300">
+            </Link>
+            <Link to="/collections" className="bg-zinc-50 hover:bg-zinc-300 text-black px-6 py-3 rounded-lg text-sm md:text-lg transition duration-300">
               Explore Collection
-            </button>
+            </Link>
           </div>
         </div>
       </div>

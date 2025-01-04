@@ -33,6 +33,7 @@ let ReactRouting = () => {
         <Route path="shipping-info" element={<ShoppingInfoPageComponent/>}/>
         <Route path ="/return-Exchange" element={<ReturnAndExchangePageComponent/>}/>
         <Route path="/login" element={<LoginForm />} />
+        <Route path="/top-Products" element={<AllCards/>}/>
         <Route path="/sign-up" element={<SignUpForm />} />
       </Routes>
 

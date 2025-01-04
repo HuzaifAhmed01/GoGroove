@@ -30,8 +30,7 @@ const ProductDetails = () => {
   let fetchData = async () => {
     try {
       let response = await api.getDataById(id);
-      setNewData(response.data);
-      // console.log(response);
+      setNewData(response.data.product);
     } catch (error) {
       console.log(
         "error occured while fetching data at Product Details component"
@@ -46,7 +45,7 @@ const ProductDetails = () => {
   return (
     <div>
       {newData?(
-        <div className="flex items-center justify-around">
+        <div className="flex items-center justify-around p-8" >
           <div className="w-[40%] h-[90vh] flex items-center justify-center">
             <img src={newData.image} alt="" className="w-[400px] h-[400px]" />
           </div>
@@ -54,18 +53,18 @@ const ProductDetails = () => {
           <div className="w-[50%] flex flex-col gap-4">
             <div className="text_Data flex flex-col gap-3">
               <h3 className="opacity-[.6] ">{newData.category}</h3>
-              <h1>{newData.title}</h1>
+              <h1>{newData.productName}</h1>
               <h4 className="flex gap-3">
                 <img src="../../../public/images/Stars.jpg" className='w-5 object-contain' alt="" />
-                Rating {newData.rating.rate}
+                Rating {newData.ratings}
                 {" "}
               </h4>
-              <h3>$ {' '}{Math.ceil(newData.price)}</h3>
+              <h3>$ {' '}{Math.ceil(newData.offerPrice)}</h3>
               <div className="btns flex gap-2">
               <Button variant="dark" onClick={()=>AddItem(newData)}>Add to Cart</Button>
               <Button variant="outline-dark" onClick={()=>NavigateToAnother('Cart')}>Buy Now</Button>
             </div>
-              <p>{newData.description}</p>
+              <p>{newData.productDescription}</p>
             </div>
            
           </div>
