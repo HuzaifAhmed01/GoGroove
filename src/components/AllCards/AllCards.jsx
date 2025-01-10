@@ -27,7 +27,7 @@ const AllCards = () => {
       let response = await api.getData();
       setCards(response.data.allProducts);
       setFilterData(response.data.allProducts);
-      console.log(response.data.allProducts)
+      // console.log(response.data.allProducts)
 
       
       

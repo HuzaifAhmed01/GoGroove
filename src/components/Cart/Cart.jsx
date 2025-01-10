@@ -7,6 +7,7 @@ import { AddCart, DeleteCart } from '../../redux/action';
 const Cart = () => {
   const cartItems = useSelector((state) => state.CartReducer || []); // Provide default empty array
   const dispatch = useDispatch();
+  console.log(cartItems);
 
   const handleButton = (product, actionType) => {
     if (actionType === 'increase') {
@@ -26,20 +27,20 @@ const Cart = () => {
       ) : (
         cartItems.map((product) => (
           <div
-            key={product.id}
+            key={product._id}
             className="flex flex-col md:flex-row items-center md:items-start my-4 p-4 border rounded-lg shadow-sm"
           >
             <div className="w-full md:w-1/4 mb-4 md:mb-0 flex justify-center">
               <img
-                src={product.image}
+                src={product.images[0].url}
                 alt={product.title}
                 className="h-48 w-40 object-cover"
               />
             </div>
             <div className="w-full md:w-3/4 md:pl-4 flex flex-col items-center md:items-start">
-              <h3 className="text-lg font-medium mb-2">{product.title}</h3>
+              <h3 className="text-lg font-medium mb-2">{product.productName}</h3>
               <p className="text-lg font-semibold mb-4">
-                {product.qty} x ${product.price} = ${product.qty * product.price}
+                {product.qty} x ${product.price} = ${product.qty * product.offerPrice}
               </p>
               <div className="flex space-x-3 mb-3">
                 <button

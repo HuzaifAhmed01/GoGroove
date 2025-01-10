@@ -3,10 +3,16 @@ import logo from "../../assets/images/Home/QuickCart_navLogo.png";
 import { Link } from "react-router-dom";
 import Cookies from "js-cookie";
 import MenuForNavigation from "../NavigationMenu/menuForNavigation";
+import SearchInput from "../searchBarComponent/SearchInput";
 
 const Navbar = () => {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [isUserMenuOpen, setIsUserMenuOpen] = useState(false);
+
+  const [searchProduct, setSearchProduct] = useState({
+    keys:""
+  });
+
 
   const token = Cookies.get("token");
   const name = Cookies.get("name");
@@ -30,6 +36,7 @@ const Navbar = () => {
               type="text"
               placeholder="Search for products..."
               className="w-full p-2 rounded-l-md border border-gray-300 focus:outline-none focus:ring-2 focus:ring-black"
+            
             />
             <button className="bg-black text-white px-4 py-2 rounded-r-md hover:bg-gray-800">
               Search
@@ -147,14 +154,8 @@ const Navbar = () => {
       {/* Mobile Bottom Search Bar */}
       <div className="md:hidden bg-white p-2 border-t">
         <div className="flex items-center">
-          <input
-            type="text"
-            placeholder="Search for products..."
-            className="w-full p-2 border border-gray-300 rounded-l-md focus:outline-none"
-          />
-          <button className="bg-black text-white px-4 py-2 rounded-r-md hover:bg-gray-800">
-            Search
-          </button>
+         <SearchInput/>
+          
         </div>
       </div>
     </nav>

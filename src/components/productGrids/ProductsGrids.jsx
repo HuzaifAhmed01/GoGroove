@@ -19,10 +19,10 @@ const WelcomePage = () => {
   const fetchProducts = async () => {
     try {
       const response = await api.getData(); // Fetch data from the API
-      if (response.status === 200 && Array.isArray(response.data)) {
+      if (response.status === 200 && Array.isArray(response.data.allProducts)) {
         // Assuming the API response contains "suggested" and "topRated" product categories
-        setSuggestedProducts(response.data.filter((prod) => prod.category === "electronics").slice(0, 6));
-        setTopRatedProducts(response.data.filter((prod) => prod.category === "women's clothing").slice(0, 6));
+        setSuggestedProducts(response.data.allProducts.filter((prod) => prod.category === "Electronics").slice(0, 6));
+        setTopRatedProducts(response.data.allProducts.filter((prod) => prod.category === "Men’s Clothing").slice(0, 6));
       } else {
         throw new Error("Invalid data format received from the server.");
       }
@@ -72,22 +72,22 @@ const WelcomePage = () => {
         <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-6">
           {suggestedProducts.map((product) => (
             <div
-              key={product.id}
+              key={product._id}
               className="bg-white shadow-md rounded-lg overflow-hidden p-4 flex flex-col items-center group" // Added 'group' for nested hover effects
-              onClick={() => handleClickNavigate(product.id)}
+              onClick={() => handleClickNavigate(product._id)}
             >
              <div className="w-28 h-24 mb-3 ">
              <img
-                src={product.image || "https://via.placeholder.com/150"}
-                alt={product.title || "Product Image"}
+                src={product.images[0].url }
+                alt={product.productName || "Product Image"}
                 className="w-[100%] h-[100%] object-center  mb-4 transition-transform duration-300 ease-in-out transform group-hover:scale-110"
               />
              </div>
               <h3 className="text-sm font-semibold text-gray-800 text-center mb-2">
-                {product.title.slice(0,20)|| "Unnamed Product"}
+                {product.productName|| "Unnamed Product"}
               </h3>
               <p className="text-yellow-500 font-semibold text-sm">
-                ${product.price?.toFixed(2) || "0.00"}
+                ${product.offerPrice|| "0.00"}
               </p>
             </div>
           ))}
@@ -100,20 +100,20 @@ const WelcomePage = () => {
         <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-6">
           {topRatedProducts.map((product) => (
             <div
-              key={product.id}
+              key={product._id}
               className="bg-white shadow-md rounded-lg overflow-hidden p-4 flex flex-col items-center group"
-              onClick={() => handleClickNavigate(product.id)}
+              onClick={() => handleClickNavigate(product._id)}
             >
               <img
-                src={product.image || "https://via.placeholder.com/150"}
+                src={product.images[0].url || "https://via.placeholder.com/150"}
                 alt={product.title || "Product Image"}
                 className="w-26 h-28 object-center   mb-4 transition-transform duration-300 ease-in-out transform group-hover:scale-110"
               />
               <h3 className="text-sm font-semibold text-gray-800 text-center mb-2">
-                {product.title.slice(0,15) || "Unnamed Product"}
+                {product.productName || "Unnamed Product"}
               </h3>
               <p className="text-yellow-500 font-semibold text-sm">
-                ${product.price?.toFixed(2) || "0.00"}
+                ${product.offerPrice|| "0.00"}
               </p>
             </div>
           ))}
