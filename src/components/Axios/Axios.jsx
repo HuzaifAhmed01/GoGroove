@@ -12,6 +12,12 @@ export let getDataById = (id) => {
   return api.get(`/findProduct/${id}`);
 };
 
+export let searchProduct =(keys)=>{
+  console.log('from axios'+keys+'axios')
+  return api.get("/searchProducts",{params:keys});
+
+}
+
 // For User
 let userAPi = axios.create({
   baseURL: "http://localhost:5800/user",
@@ -24,3 +30,6 @@ export let postUser = (user) => {
 export let userLogin = (user) => {
   return userAPi.post("/userLogin", user);
 };
+
+
+
