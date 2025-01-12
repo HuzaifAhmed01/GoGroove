@@ -84,7 +84,7 @@ const WelcomePage = () => {
               />
              </div>
               <h3 className="text-sm font-semibold text-gray-800 text-center mb-2">
-                {product.productName|| "Unnamed Product"}
+                {product.productName.slice(0,15)|| "Unnamed Product"}
               </h3>
               <p className="text-yellow-500 font-semibold text-sm">
                 ${product.offerPrice|| "0.00"}
@@ -110,7 +110,7 @@ const WelcomePage = () => {
                 className="w-26 h-28 object-center   mb-4 transition-transform duration-300 ease-in-out transform group-hover:scale-110"
               />
               <h3 className="text-sm font-semibold text-gray-800 text-center mb-2">
-                {product.productName || "Unnamed Product"}
+                {product.productName.slice(0,15) || "Unnamed Product"}
               </h3>
               <p className="text-yellow-500 font-semibold text-sm">
                 ${product.offerPrice|| "0.00"}

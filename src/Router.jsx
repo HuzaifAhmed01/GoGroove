@@ -25,7 +25,7 @@ let ReactRouting = () => {
       )}
       <Routes>
         <Route path="/" element={<Homepage />} />
-        <Route path="/product/:id" element={<ProductDetails />} />
+        <Route path="/product/:id" element={<ProductDetails/>} />
         <Route path="/Product" element={<AllCards />} />
         <Route path="/Cart" element={<Cart/>} />
         <Route path="/privacy-policy" element={<PrivacyPolicy/>} />

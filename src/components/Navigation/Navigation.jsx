@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import logo from "../../assets/images/Home/QuickCart_navLogo.png";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import Cookies from "js-cookie";
 import MenuForNavigation from "../NavigationMenu/menuForNavigation";
 import { searchProduct } from "../Axios/Axios";
@@ -12,6 +12,12 @@ const Navbar = () => {
   const [searchResult, setSearchResult] = useState([]);
   const [isFocused, setIsFocused] = useState(false); // To track focus on search input
 
+  let navigate = useNavigate();
+
+  let navigateToPage = (path) => {
+    navigate(`/product/${path}`);
+  };
+
   const token = Cookies.get("token");
   const name = Cookies.get("name");
 
@@ -20,16 +26,17 @@ const Navbar = () => {
       console.log("Searching for:", query);
 
       const response = await searchProduct({ keys: query });
+      console.log(searchProduct);
 
       if (response.data.success) {
-        setSearchResult(response.data.data); 
+        setSearchResult(response.data.data);
         console.log("Data fetched successfully:", response.data.data);
       } else {
-        setSearchResult([]); 
+        setSearchResult([]);
         console.log("No products found");
       }
     } catch (error) {
-      setSearchResult([]); 
+      setSearchResult([]);
       console.error("Error occurred while fetching data:", error.message);
     }
   };
@@ -71,7 +78,7 @@ const Navbar = () => {
               value={text.keys}
               onChange={handleChange}
               onFocus={handleFocus} // Trigger focus event
-              onBlur={handleBlur}   // Trigger blur event
+              onBlur={handleBlur} // Trigger blur event
             />
             <button className="bg-black text-white px-4 py-2 rounded-r-md hover:bg-gray-800">
               Search
@@ -83,7 +90,10 @@ const Navbar = () => {
             <Link to="/categories" className="text-black hover:text-gray-700">
               Categories
             </Link>
-            <Link to="/cart" className="flex items-center text-black hover:text-gray-700">
+            <Link
+              to="/cart"
+              className="flex items-center text-black hover:text-gray-700"
+            >
               Cart
               <svg
                 xmlns="http://www.w3.org/2000/svg"
@@ -142,7 +152,11 @@ const Navbar = () => {
                   strokeLinecap="round"
                   strokeLinejoin="round"
                   strokeWidth="2"
-                  d={isMobileMenuOpen ? "M6 18L18 6M6 6l12 12" : "M4 6h16M4 12h16M4 18h16"}
+                  d={
+                    isMobileMenuOpen
+                      ? "M6 18L18 6M6 6l12 12"
+                      : "M4 6h16M4 12h16M4 18h16"
+                  }
                 />
               </svg>
             </button>
@@ -154,7 +168,10 @@ const Navbar = () => {
       {isMobileMenuOpen && (
         <div className="md:hidden bg-white border-t border-gray-300">
           <div className="py-4 space-y-2 px-4">
-            <Link to="/categories" className="block text-black hover:text-gray-700">
+            <Link
+              to="/categories"
+              className="block text-black hover:text-gray-700"
+            >
               Categories
             </Link>
             <Link to="/cart" className="block text-black hover:text-gray-700">
@@ -162,7 +179,10 @@ const Navbar = () => {
             </Link>
             {token && name ? (
               <>
-                <button onClick={toggleUserMenu} className="block w-full text-left text-black hover:text-gray-700">
+                <button
+                  onClick={toggleUserMenu}
+                  className="block w-full text-left text-black hover:text-gray-700"
+                >
                   {name}
                 </button>
                 {isUserMenuOpen && (
@@ -172,7 +192,10 @@ const Navbar = () => {
                 )}
               </>
             ) : (
-              <Link to="/login" className="block text-black hover:text-gray-700">
+              <Link
+                to="/login"
+                className="block text-black hover:text-gray-700"
+              >
                 Login
               </Link>
             )}
@@ -182,16 +205,15 @@ const Navbar = () => {
 
       {/* Mobile Search Bar */}
       <div className="md:hidden bg-white p-4 border-t">
-        <div className="flex items-center space-x-2">
+        <div className="relative flex items-center space-x-2">
           <input
             type="text"
             placeholder="Search for products..."
             className="flex-grow p-2 border border-gray-300 rounded-l-md focus:outline-none"
-            name="key"
+            name="keys"
             value={text.keys}
             onChange={handleChange}
             onFocus={handleFocus}
-            onBlur={handleBlur}
           />
           <button
             type="submit"
@@ -204,10 +226,24 @@ const Navbar = () => {
 
       {/* Display Search Results */}
       {isFocused && searchResult.length > 0 && (
-        <div className="absolute bg-white border shadow-md mt-2 max-h-64 w-full md:w-auto left-1/2 transform -translate-x-1/2 overflow-y-hidden">
+        <div
+          className="absolute bg-white border shadow-lg mt-2 max-h-64 w-full md:w-[550px] left-1/2 lg:left-[560px] transform -translate-x-1/2 overflow-y-auto"
+          onMouseDown={(e) => e.preventDefault()} // Prevent input blur
+        >
           {searchResult.map((item, index) => (
-            <div key={index} className="p-2 hover:bg-gray-100 cursor-pointer border-b">
-              {item.productName}
+            <div
+              key={index}
+              className="flex items-center p-3 hover:bg-gray-100 cursor-pointer border-b"
+              // onClick={navigateToPage(item.)}
+            >
+              <img
+                src={item.images[0].url}
+                alt={item.productName}
+                className="w-10 h-8 rounded-md object-contain mr-3"
+              />
+              <div className="text-sm font-medium text-gray-700" onClick={()=> navigateToPage(item._id)}>
+                {item.productName}
+              </div>
             </div>
           ))}
         </div>
