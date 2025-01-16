@@ -3,13 +3,13 @@ import * as api from "../Axios/Axios";
 import Button from "react-bootstrap/Button";
 import { useNavigate } from "react-router-dom";
 import Card from "react-bootstrap/Card";
-import Loader from "../Loader/Loader"; // Import the Loader component
+import AllCardsSkeleton from "../skeletonLoaderComponents/AllCardsSkeleton";
 
 const AllCards = () => {
   let [cards, setCards] = useState([]);
   let [filterData, setFilterData] = useState([]);
   let [addClass, setAddClass] = useState(false);
-  let [loader, setLoader] = useState(false); // Add loader state
+  let [loader, setLoader] = useState(false);
 
   let navigate = useNavigate();
 
@@ -22,19 +22,15 @@ const AllCards = () => {
   };
 
   const fetchData = async () => {
-    setLoader(true); // Set loader to true while fetching data
+    setLoader(true);
     try {
       let response = await api.getData();
       setCards(response.data.allProducts);
       setFilterData(response.data.allProducts);
-      // console.log(response.data.allProducts)
-
-      
-      
-      setLoader(false); // Hide loader once data is fetched
+      setLoader(false);
     } catch (error) {
       console.error("Error fetching data:", error);
-      setLoader(false); // Hide loader if there's an error
+      setLoader(false);
     }
   };
 
@@ -46,6 +42,8 @@ const AllCards = () => {
   useEffect(() => {
     fetchData();
   }, []);
+
+ 
 
   return (
     <>
@@ -112,54 +110,56 @@ const AllCards = () => {
       </div>
 
       {/* Responsive Cards Grid */}
-      <div className="w-full py-3 grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-4 gap-4 px-4">
-        {loader ? (
-          <Loader />
-        ) : filterData.length ? (
-          filterData.map((obj) => (
-            <Card
-              key={obj._id}
-              className="w-full h-auto p-2 flex flex-col items-center justify-between text-center bg-white rounded-lg shadow-lg hover:shadow-2xl transition-all duration-300 transform hover:scale-105"
-            >
-              <div className="w-full h-48 rounded-lg overflow-hidden relative">
-                <Card.Img
-                  variant="top"
-                  src={obj.images[0].url}
-                  className="w-full h-full object-contain transition-transform duration-500 ease-in-out transform hover:scale-110"
-                />
-              </div>
-              <Card.Body className="flex flex-col justify-between">
-                <h2 className="text-lg font-semibold text-gray-800">
-                  {obj.productName.slice(0,15)}...
-                </h2>
-                <div className="w-full h-8 flex justify-between items-baseline">
-                  <h3 className="text-xl font-bold text-gray-900">
-                  <i class="fa fa-inr" aria-hidden="true"></i>{Math.ceil(obj.offerPrice
-)}
-                  </h3>
-                  <div className="flex items-center space-x-1 text-yellow-500">
-                    <img
-                      src="../../../public/images/Stars.jpg"
-                      alt=""
-                      className="w-4"
-                    />
-                    <span>{obj.ratings}</span>
-                  </div>
+      {loader ? (
+        <AllCardsSkeleton />
+      ) : (
+        <div className="w-full py-3 grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-4 gap-4 px-4">
+          {filterData.length ? (
+            filterData.map((obj) => (
+              <Card
+                key={obj._id}
+                className="w-full h-auto p-2 flex flex-col items-center justify-between text-center bg-white rounded-lg shadow-lg hover:shadow-2xl transition-all duration-300 transform hover:scale-105"
+              >
+                <div className="w-full h-48 rounded-lg overflow-hidden relative">
+                  <Card.Img
+                    variant="top"
+                    src={obj.images[0].url}
+                    className="w-full h-full object-contain transition-transform duration-500 ease-in-out transform hover:scale-110"
+                  />
                 </div>
-                <Button
-                  variant="outline-dark"
-                  className="mt-1 w-full rounded-lg text-sm font-medium bg-red-500"
-                  onClick={() => handleClickNavigate(obj._id)}
-                >
-                  Buy Now
-                </Button>
-              </Card.Body>
-            </Card>
-          ))
-        ) : (
-          <p>No products found.</p>
-        )}
-      </div>
+                <Card.Body className="flex flex-col justify-between">
+                  <h2 className="text-lg font-semibold text-gray-800">
+                    {obj.productName.slice(0, 15)}...
+                  </h2>
+                  <div className="w-full h-8 flex justify-between items-baseline">
+                    <h3 className="text-xl font-bold text-gray-900">
+                      <i className="fa fa-inr" aria-hidden="true"></i>
+                      {Math.ceil(obj.offerPrice)}
+                    </h3>
+                    <div className="flex items-center space-x-1 text-yellow-500">
+                      <img
+                        src="../../../public/images/Stars.jpg"
+                        alt=""
+                        className="w-4"
+                      />
+                      <span>{obj.ratings}</span>
+                    </div>
+                  </div>
+                  <Button
+                    variant="outline-dark"
+                    className="mt-1 w-full rounded-lg text-sm font-medium bg-red-500"
+                    onClick={() => handleClickNavigate(obj._id)}
+                  >
+                    Buy Now
+                  </Button>
+                </Card.Body>
+              </Card>
+            ))
+          ) : (
+            <p>No products found.</p>
+          )}
+        </div>
+      )}
     </>
   );
 };

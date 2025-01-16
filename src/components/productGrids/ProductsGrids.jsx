@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import * as api from "../Axios/Axios"; // Adjust import path for Axios API module
 import { useNavigate } from "react-router-dom";
-import Loader from "../Loader/Loader";
+import ProductGridSkeleton from "../skeletonLoaderComponents/ProductGridSkeleton";
 
 const WelcomePage = () => {
 
@@ -42,7 +42,7 @@ const WelcomePage = () => {
     return (
 <div className="w-full h-[400px] flex items-center justify-center ">
 
-  <Loader/>
+  <ProductGridSkeleton/>
 </div>
      
     );

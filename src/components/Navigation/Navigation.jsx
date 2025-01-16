@@ -225,29 +225,48 @@ const Navbar = () => {
       </div>
 
       {/* Display Search Results */}
-      {isFocused && searchResult.length > 0 && (
+      {isFocused && (
+  <div
+    className="absolute bg-white border shadow-lg mt-2 max-h-64 w-full md:w-[550px] left-1/2 lg:left-[560px] transform -translate-x-1/2 overflow-y-auto"
+    onMouseDown={(e) => e.preventDefault()} // Prevent input blur
+  >
+    {searchResult.length === 0 ? (
+      // Loader when search results are empty or loading
+      Array.from({ length: 5 }).map((_, index) => (
         <div
-          className="absolute bg-white border shadow-lg mt-2 max-h-64 w-full md:w-[550px] left-1/2 lg:left-[560px] transform -translate-x-1/2 overflow-y-auto"
-          onMouseDown={(e) => e.preventDefault()} // Prevent input blur
+          key={index}
+          className="flex items-center p-3 border-b animate-pulse"
         >
-          {searchResult.map((item, index) => (
-            <div
-              key={index}
-              className="flex items-center p-3 hover:bg-gray-100 cursor-pointer border-b"
-              // onClick={navigateToPage(item.)}
-            >
-              <img
-                src={item.images[0].url}
-                alt={item.productName}
-                className="w-10 h-8 rounded-md object-contain mr-3"
-              />
-              <div className="text-sm font-medium text-gray-700" onClick={()=> navigateToPage(item._id)}>
-                {item.productName}
-              </div>
-            </div>
-          ))}
+          <div className="w-10 h-8 bg-gray-200 rounded-md mr-3"></div>
+          <div className="flex flex-col space-y-2">
+            <div className="w-32 h-4 bg-gray-200 rounded"></div>
+            <div className="w-24 h-4 bg-gray-200 rounded"></div>
+          </div>
         </div>
-      )}
+      ))
+    ) : (
+      searchResult.map((item, index) => (
+        <div
+          key={index}
+          className="flex items-center p-3 hover:bg-gray-100 cursor-pointer border-b"
+        >
+          <img
+            src={item.images[0].url}
+            alt={item.productName}
+            className="w-10 h-8 rounded-md object-contain mr-3"
+          />
+          <div
+            className="text-sm font-medium text-gray-700"
+            onClick={() => navigateToPage(item._id)}
+          >
+            {item.productName}
+          </div>
+        </div>
+      ))
+    )}
+  </div>
+)}
+
     </nav>
   );
 };

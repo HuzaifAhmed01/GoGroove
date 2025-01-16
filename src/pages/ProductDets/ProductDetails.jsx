@@ -4,8 +4,8 @@ import * as api from "../../components/Axios/Axios";
 import Button from "react-bootstrap/Button";
 import { useDispatch } from "react-redux";
 import { AddCart } from "../../redux/action";
-import Loader from "../../components/Loader/Loader";
 import Carousel from "react-bootstrap/Carousel";
+import ProductDetailsSkeleton from "../../components/skeletonLoaderComponents/ProductDetailsSkeleton";
 
 const ProductDetails = () => {
   let { id } = useParams();
@@ -38,11 +38,12 @@ const ProductDetails = () => {
     fetchData();
   }, []);
 
+
   return (
     <div className="p-4">
       {newData ? (
         <div>
-          {/* for first page data */}
+          {/* Product Data */}
           <div className="flex flex-col lg:flex-row gap-10 justify-around p-4 lg:p-8">
             {/* Carousel Section */}
             <div className="w-full lg:w-[50%] h-[40vh] lg:h-[60vh] mt-8 lg:mt-17 flex overflow-hidden">
@@ -111,18 +112,9 @@ const ProductDetails = () => {
               </div>
             </div>
           </div>
-
-          {/* for images page */}
-          {newData.images.map((item, index) => {
-            return (
-              <div className="w-full h-screen bg-zinc-100 rounded-2xl ">
-                <img key={index} src={item.url} alt={item} className="w-80 " />
-              </div>
-            );
-          })}
         </div>
       ) : (
-        <Loader />
+        <ProductDetailsSkeleton />
       )}
     </div>
   );
